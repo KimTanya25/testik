@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestGoldenEagle - Сайт для створення та проходження тестів</title>
+    <meta name="description" content="Сайт для тестування">
+    <meta name="keywords" content="тест, навчання, сайт для тестування, створення тестів, проходження тестів, test">
+    <link rel="canonical" href="https://www.TestGoldenEagle.com/">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #000000, #e0ab0f);
+            color: #000000;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #000000;
+            color: white;
+            padding: 1em;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo {
+            margin-right: 10px;
+        }
+        nav {
+            background-color: #e0ab0f; 
+            padding: 1em;
+            display: flex;
+            justify-content: center;
+        }
+        nav button {
+            background-color: #e0ab0f; 
+            color: white;
+            border: none;
+            padding: 0.75em 1.5em;
+            margin: 0 0.5em;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        nav button:hover {
+            background-color: #000000; 
+        }
+        main {
+            padding: 2em;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #e0ab0f; 
+        }
+        .hidden {
+            display: none;
+        }
+        label {
+            display: block;
+            margin: 0.5em 0 0.2em;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.5em;
+            margin-bottom: 1em;
+            border: 1px solid #004d40; 
+            border-radius: 4px;
+        }
+        button {
+            background-color: #000000; 
+            color: black;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FFFFFF; 
+            color: white;
+        }
+        .question {
+            margin-bottom: 1em;
+        }
+        .answer {
+            margin-left: 1em;
+        }
+        .correct-answer {
+            background-color: #e0f7fa;
+            border: 2px solid #004d40;
+        }
+        #results {
+            margin-top: 1em;
+            padding: 1em;
+            background-color: #e0f7fa;
+            border: 1px solid #004d40;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="258.png" alt="Test Logo" class="logo">  
+        <h1>TestGoldenEagle - Веб-сайт для створення та проходження тестів</h1>
+    </header>
+    <nav>
+        <button onclick="showSection('home-section.html')">Головна</button>
+        <a href="home-section.html"></a>
+        <button onclick="window.location.href='create_test.html'">Створити тест</button>
+        <a href="create_test.html"></a>
+        <button onclick="window.location.href='ctake_test.html'">Пройти тест</button>
+        <a href="ctake_test.html"></a>
+        <button onclick="window.location.href='info_test.html'">Інформація</button>
+        <a href="info_test.html"></a>
+        <button onclick="window.location.href='user.html'">Зареєструватися</button>
+        <a href="user.html"></a>
+    </nav>
+    <main>
+        <div class="container" id="home-section.html">
+            <h1>Ласкаво просимо на TestGoldenEagle!</h1>
+            <p><strong>Створюйте та проводьте онлайн-тести, відстежуйте результати та аналізуйте прогрес учнів</strong></p>
+            <h2>Що ми пропонуємо?</h2>
+            <ul>
+                <li><strong>Створіть дивовижні тести за лічені хвилини!</strong></li>
+                <li><strong>TestGoldenEagle: Ваш універсальний інструмент для створення тестів</strong></li>
+                <li><strong>Прості та зручні тести для будь-якої аудиторії</strong></li>
+            </ul>
+            <h2>За допомогою сайту</h2>
+            <ul>
+                <li><strong>Створюйте тести, вікторини, опитування та екзамени без зусиль.</strong></li>
+                <li><strong>Оцінюйте знання, відстежуйте прогрес та економте час.</strong></li>
+                <li><strong>Підходить для вчителів, викладачів, тренерів та будь-кого, хто хоче перевірити знання.</strong></li>
+            </ul>
+            <h2>Для кого наш сайт?</h2>
+            <ul>
+                <li><strong>Учні</strong>: Поліпшуйте свої знання та готуйтеся до іспитів.</li>
+                <li><strong>Вчителі</strong>: Створюйте власні тести для ваших учнів та відстежуйте їхній прогрес.</li>
+                <li><strong>Батьки</strong>: Допомагайте своїм дітям у навчанні та контролюйте їх успішність.</li>
+            </ul>
+            <h2>Почніть вже сьогодні!</h2>
+            <p>Приєднуйтесь до нашої спільноти та зробіть навчання цікавим та ефективним. <a href="user.html">Зареєструватися/Увійти</a></p>
+            <h2>Залишилися питання?</h2>
+            <p>Зв'яжіться з нами через <a href="contact.html">контактна форма</a> або перегляньте розділ <a href="faq.html">FAQ</a>.</p>
+            <p>Автор: Кім Тетяна</p>
+        </div>
+    </main>
+</body>
+</html>

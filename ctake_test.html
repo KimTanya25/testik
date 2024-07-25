@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пройти тест - TestGoldenEagle</title>
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #000000, #e0ab0f);
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #e0ab0f;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+    nav button:hover {
+      background-color: #000000;
+    }
+    main {
+      padding: 2em;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #e0ab0f;
+    }
+    label {
+      display: block;
+      margin: 0.5em 0 0.2em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #004d40;
+      border-radius: 4px;
+    }
+    .answer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .answer label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .answer img {
+      margin-right: 10px;
+      max-width: 100px;
+      max-height: 100px;
+      object-fit: cover;
+    }
+    button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+    button:hover {
+      background-color: #000000;
+    }
+    /* Нові стилі для відображення питань та відповідей */
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 1em;
+      color: #000000;
+    }
+    .answer {
+      font-size: 1em;
+      margin: 0.5em 0;
+      padding: 0.5em;
+      background-color: #f9f9f9;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .answer img {
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+    .answer input[type="radio"] {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TestGoldenEagle - Веб-сайт для створення та проходження тестів</h1>
+  </header>
+  <nav>
+    <button onclick="window.location.href='home-section.html'">Головна</button>
+    <a href="home-section.html"></a>
+    <button onclick="window.location.href='create_test.html'">Створити тест</button>
+    <a href="create_test.html"></a>
+    <button onclick="window.location.href='info_test.html'">Інформація</button>
+    <a href="info_test.html"></a>
+  </nav>
+  <main>
+    <div class="container">
+      <section id="student-section">
+        <h2>Пройти тест</h2>
+        <form id="start-test-form" onsubmit="startTest(event)">
+          <label for="student-name">Ваше ім'я:</label>
+          <input type="text" id="student-name" name="student-name" required>
+
+          <label for="test-code-input">Код тесту:</label>
+          <input type="text" id="test-code-input" name="test-code-input" required>
+
+          <button type="submit">Почати тест</button>
+        </form>
+      </section>
+      <section id="test-section" style="display:none;">
+        <h2>Тест</h2>
+        <div id="question-container"></div>
+        <button id="skip-button" onclick="skipQuestion()">Пропустити</button>
+        <button id="next-button" onclick="nextQuestion()">Далі</button>
+      </section>
+      <section id="results-section" style="display:none;">
+        <h2>Результати</h2>
+        <div id="results"></div>
+      </section>
+    </div>
+  </main>
+<script>
+    let currentQuestionIndex = 0;
+    let questions = [];
+    let skippedQuestions = [];
+    let correctAnswers = 0;
+
+    document.getElementById('start-test-form').addEventListener('submit', startTest);
+
+    function startTest(event) {
+        event.preventDefault();
+        const testCode = document.getElementById('test-code-input').value;
+        const storedTests = JSON.parse(localStorage.getItem('tests')) || {};
+        const test = storedTests[testCode];
+
+        if (test) {
+            questions = shuffleArray([...test.questions]);
+            toggleVisibility('student-section', false);
+            toggleVisibility('test-section', true);
+            displayQuestion();
+        } else {
+            alert('Тест не знайдено!');
+        }
+    }
+
+    function displayQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            if (skippedQuestions.length > 0) {
+                questions = questions.concat(skippedQuestions);
+                skippedQuestions = [];
+                currentQuestionIndex = 0;
+            } else {
+                showResults();
+                return;
+            }
+        }
+
+        const question = questions[currentQuestionIndex];
+        const questionContainer = document.getElementById('question-container');
+
+        if (!question) {
+            console.error('Question not found at index:', currentQuestionIndex);
+            return;
+        }
+
+        questionContainer.innerHTML = `
+            <h3 class="question">${question.question}</h3>
+            ${question.answers.map((answer, index) => `
+                <div class="answer">
+                    <input type="radio" id="answer-${index}" name="answers" value="${index}">
+                    <label for="answer-${index}">${String.fromCharCode(97 + index)}. ${answer}</label>
+                </div>
+            `).join('')}
+        `;
+    }
+
+    function nextQuestion() {
+        const selectedAnswer = document.querySelector('input[name="answers"]:checked');
+        if (selectedAnswer) {
+            const question = questions[currentQuestionIndex];
+            if (parseInt(selectedAnswer.value) === question.correct) {
+                correctAnswers++;
+            }
+            currentQuestionIndex++;
+            displayQuestion();
+        } else {
+            alert('Виберіть відповідь, щоб продовжити.');
+        }
+    }
+
+    function skipQuestion() {
+        skippedQuestions.push(questions[currentQuestionIndex]);
+        currentQuestionIndex++;
+        displayQuestion();
+    }
+
+    function showResults() {
+        toggleVisibility('test-section', false);
+        toggleVisibility('results-section', true);
+
+        const totalQuestions = questions.length;
+        const percentage = (correctAnswers / totalQuestions) * 100;
+
+        document.getElementById('results').innerHTML = `
+            <p>Ви відповіли правильно на ${correctAnswers} з ${totalQuestions} питань.</p>
+            <p>Ваш результат:</p>
+            <ul>
+                <li>100-бальна система: ${percentage.toFixed(2)}%</li>
+                <li>12-бальна система: ${Math.round((correctAnswers / totalQuestions) * 12)}</li>
+                <li>5-бальна система: ${(correctAnswers / totalQuestions * 5).toFixed(2)}</li>
+            </ul>
+        `;
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function toggleVisibility(elementId, isVisible) {
+        const element = document.getElementById(elementId);
+        if (isVisible) {
+            element.classList.remove('hidden');
+            element.style.display = 'block';
+        } else {
+            element.classList.add('hidden');
+            element.style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>

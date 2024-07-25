@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реєстрація та Вхід - TestGoldenEagle</title>
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #000000, #e0ab0f);
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #e0ab0f;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+    nav button:hover {
+      background-color: #000000;
+    }
+    main {
+      padding: 2em;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #e0ab0f;
+    }
+    .form-group {
+      margin-bottom: 1em;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.75em;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    .form-group input[type="file"] {
+      padding: 0;
+    }
+    button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000000;
+    }
+    .tab {
+      cursor: pointer;
+      padding: 10px 20px;
+      display: inline-block;
+      background-color: #e0ab0f;
+      color: white;
+      margin-right: 5px;
+      border-radius: 4px;
+    }
+    .tab:hover {
+      background-color: #000000;
+    }
+    .active-tab {
+      background-color: #000000;
+    }
+    #profile-container {
+      display: none;
+      text-align: center;
+    }
+    #profile-container img {
+      max-width: 150px;
+      border-radius: 50%;
+      margin-bottom: 1em;
+    }
+    #change-photo-form {
+      margin-top: 1em;
+    }
+    .nav-buttons {
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Реєстрація та Вхід - TestGoldenEagle</h1>
+  </header>
+  <nav>
+    <button onclick="window.location.href='home-section.html'">Головна</button>
+    <a href="home-section.html"></a>
+    <button onclick="window.location.href='create_test.html'">Створити тест</button>
+    <a href="create_test.html"></a>
+    <button onclick="window.location.href='ctake_test.html'">Пройти тест</button>
+    <a href="ctake_test.html"></a>
+    <button onclick="window.location.href='info_test.html'">Інформація</button>
+    <a href="info_test.html"></a>
+    <button onclick="window.location.href='profile-settings.html'">Налаштування</button> 
+    <a href="profile-settings.html"></a>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="tab" id="register-tab" onclick="showRegister()">Реєстрація</div>
+      <div class="tab" id="login-tab" onclick="showLogin()">Вхід</div>
+      <form id="registration-form" onsubmit="registerUser(event)">
+        <div class="form-group">
+          <label for="reg-username">Ім'я користувача</label>
+          <input type="text" id="reg-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Електронна пошта</label>
+          <input type="email" id="reg-email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Пароль</label>
+          <input type="password" id="reg-password" name="password" required>
+        </div>
+        <div class="form-group">
+          <label for="reg-photo">Фото профілю</label>
+          <input type="file" id="reg-photo" name="photo" accept="image/*" required>
+        </div>
+        <button type="submit">Зареєструватися</button>
+      </form>
+
+      <form id="login-form" onsubmit="loginUser(event)" style="display:none;">
+        <div class="form-group">
+          <label for="login-username">Ім'я користувача або Електронна пошта</label>
+          <input type="text" id="login-username" name="username" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Пароль</label>
+          <input type="password" id="login-password" name="password" required>
+        </div>
+        <button type="submit">Увійти</button>
+      </form>
+
+      <div id="profile-container">
+        <h2>Вітаємо, <span id="profile-username"></span>!</h2>
+        <img id="profile-photo" src="" alt="Фото профілю">
+        <p>Email: <span id="profile-email"></span></p>
+        <form id="change-photo-form" onsubmit="changePhoto(event)">
+          <div class="form-group">
+            <label for="new-photo">Змінити фото профілю</label>
+            <input type="file" id="new-photo" name="new-photo" accept="image/*" required>
+          </div>
+          <button type="submit">Зберегти нове фото</button>
+        </form>
+        <div class="nav-buttons">
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    let currentUser;
+
+    function showRegister() {
+      document.getElementById('registration-form').style.display = 'block';
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('profile-container').style.display = 'none';
+      document.getElementById('register-tab').classList.add('active-tab');
+      document.getElementById('login-tab').classList.remove('active-tab');
+    }
+    
+    function showLogin() {
+      document.getElementById('registration-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('profile-container').style.display = 'none';
+      document.getElementById('register-tab').classList.remove('active-tab');
+      document.getElementById('login-tab').classList.add('active-tab');
+    }
+    
+    function registerUser(event) {
+      event.preventDefault();
+      const username = document.getElementById('reg-username').value;
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-password').value;
+      const photo = document.getElementById('reg-photo').files[0];
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const user = { username, email, password, photo: e.target.result };
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        if (users.find(user => user.email === email)) {
+          alert('Ця електронна пошта вже зареєстрована.');
+          return;
+        }
+        
+        users.push(user);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        alert('Реєстрація пройшла успішно!');
+        document.getElementById('registration-form').reset();
+      };
+      reader.readAsDataURL(photo);
+    }
+
+    function loginUser(event) {
+      event.preventDefault();
+      const usernameOrEmail = document.getElementById('login-username').value;
+      const password = document.getElementById('login-password').value;
+      
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(user => (user.email === usernameOrEmail || user.username === usernameOrEmail) && user.password === password);
+      
+      if (user) {
+        alert('Вхід успішний!');
+        current
+        alert('Вхід успішний!');
+        currentUser = user;
+        document.getElementById('profile-username').innerText = user.username;
+        document.getElementById('profile-email').innerText = user.email;
+        const profilePhoto = document.getElementById('profile-photo');
+        profilePhoto.src = user.photo;
+        profilePhoto.style.height = '150px';
+        profilePhoto.style.width = '150px';
+        profilePhoto.style.borderRadius = '9999px';
+        document.getElementById('registration-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('profile-container').style.display = 'block';
+      } else {
+        alert('Невірне ім\'я користувача або пароль.');
+      }
+
+      document.getElementById('login-form').reset();
+    }
+
+    function changePhoto(event) {
+      event.preventDefault();
+      const newPhoto = document.getElementById('new-photo').files[0];
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentUser.photo = e.target.result;
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        users = users.map(user => user.email === currentUser.email ? currentUser : user);
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        const profilePhoto = document.getElementById('profile-photo');
+        profilePhoto.src = currentUser.photo;
+        profilePhoto.style.height = '150px';
+        profilePhoto.style.width = '150px';
+        profilePhoto.style.borderRadius = '9999px';
+        
+        alert('Фото профілю оновлено успішно!');
+        document.getElementById('change-photo-form').reset();
+      };
+      reader.readAsDataURL(newPhoto);
+    }
+  </script>
+</body>
+</html>

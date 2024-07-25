@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пройти тест - TestGoldenEagle</title>
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #000000, #e0ab0f);
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000; 
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #e0ab0f;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+    nav button:hover {
+      background-color: #000000;
+    }
+    main {
+      padding: 2em;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff; 
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #e0ab0f; 
+    }
+    label {
+      display: block;
+      margin: 0.5em 0 0.2em;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #004d40; 
+      border-radius: 4px;
+    }
+    .code-panel {
+      margin-bottom: 2em;
+    }
+    .questions-panel {
+      margin-bottom: 2em;
+    }
+    .question {
+      margin-bottom: 1em;
+    }
+    .answer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .answer input[type="radio"] {
+      margin-right: 10px;
+    }
+    .answer label {
+      cursor: pointer;
+    }
+    .answer .radio-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #004d40; 
+      margin-right: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .answer input[type="radio"]:checked + label .radio-circle {
+      background-color: #00994d; 
+    }
+    button {
+      background-color: #e0ab0f; 
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000000; 
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TestGoldenEagle - Веб-сайт для створення та проходження тестів</h1>
+  </header>
+  <nav>
+    <button onclick="window.location.href='home-section.html'">Головна</button>
+    <a href="home-section.html"></a>
+    <button onclick="window.location.href='create_test.html'">Створити тест</button>
+    <a href="create_test.html"></a>
+    <button onclick="window.location.href='ctake_test.html'">Пройти тест</button>
+    <a href="ctake_test.html"></a>
+  </nav>
+  <main>
+    <div class="container">
+      <section id="user-guide">
+        <h1>Ласкаво просимо на TestGoldenEagle!</h1>
+        <p><strong>Створюйте та проводьте онлайн-тести, відстежуйте результати та аналізуйте прогрес учнів</strong></p>
+
+        <h2>Вступ</h2>
+        <p>TestGoldenEagle — це універсальний інструмент для створення онлайн-тестів, вікторин та опитувань. Наш продукт допоможе вам швидко та легко перевірити знання учнів, відстежувати їхні результати та аналізувати прогрес.</p>
+
+        <h2>Основні характеристики</h2>
+        <ul>
+          <li><strong>Швидке створення тестів:</strong> Створіть дивовижні тести за лічені хвилини.</li>
+          <li><strong>Універсальний інструмент:</strong> TestGoldenEagle підходить для створення тестів будь-якої складності.</li>
+          <li><strong>Зручність використання:</strong> Прості та зручні тести для будь-якої аудиторії.</li>
+        </ul>
+
+        <h2>Інструкції з використання</h2>
+        <ol>
+          <li>Зареєструйтесь або увійдіть до свого облікового запису.</li>
+          <li>Перейдіть до розділу "Створити тест".</li>
+          <li>Введіть назву тесту та додайте запитання.</li>
+          <li>Налаштуйте параметри тесту (час, кількість спроб тощо).</li>
+          <li>Збережіть та опублікуйте тест для учнів.</li>
+          <li>Відстежуйте результати та аналізуйте прогрес учнів у розділі "Результати".</li>
+        </ol>
+
+        <h2>Посібники з усунення несправностей</h2>
+        <ul>
+          <li><strong>Тест не зберігається:</strong> Переконайтесь, що всі обов’язкові поля заповнені та натисніть "Зберегти".</li>
+          <li><strong>Учні не можуть пройти тест:</strong> Перевірте, чи тест опублікований та доступний для проходження.</li>
+          <li><strong>Проблеми з результатами:</strong> Оновіть сторінку або зверніться до технічної підтримки.</li>
+        </ul>
+
+        <h2>Технічна підтримка</h2>
+        <p>Якщо у вас виникли питання або проблеми, зверніться до нашої технічної підтримки за електронною адресою (почту впиши) або зателефонуйте за номером (номер впиши) .</p>
+
+        <h2>Гарантія</h2>
+        <p>Наш продукт має гарантію на 1 рік з дати покупки. Якщо у вас виникнуть проблеми з продуктом протягом цього періоду, ми надамо безкоштовну технічну підтримку та допоможемо усунути будь-які несправності.</p>
+
+        <h2>Юридична інформація</h2>
+        <p>Всі права захищені. TestGoldenEagle та логотип є зареєстрованими торговими марками компанії Test Inc. Використання нашого продукту регулюється умовами користування та політикою конфіденційності.</p>
+      </section>
+    </div>
+
+  </main>
+
+  <script>
+    const testDatabase = {
+      "test123": {
+        title: "Приклад тесту",
+        description: "Це приклад тесту з кількома запитаннями.",
+        questions: [
+          {
+            question: "Якого кольору небо?",
+            answers: ["Синій", "Зелений", "Червоний", "Жовтий"],
+            correct: 0
+          },
+          {
+            question: "Скільки днів у тижні?",
+            answers: ["5", "6", "7", "8"],
+            correct: 2
+          }
+        ]
+      }
+    };
+
+    function loadTest(event) {
+      event.preventDefault();
+      const testCode = document.getElementById("test-code-input").value;
+      const studentName = document.getElementById("student-name").value;
+      const test = testDatabase[testCode];
+      
+      if (test) {
+        document.getElementById("student-section").style.display = "none";
+        document.getElementById("test-section").style.display = "block";
+        
+        const questionsContainer = document.getElementById("questions-container");
+        questionsContainer.innerHTML = '';
+        
+        test.questions.forEach((q, index) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question";
+          questionDiv.innerHTML = `
+            <label>${q.question}</label>
+            ${q.answers.map((answer, i
+            ${q.answers.map((answer, i) => `
+              <div class="answer">
+                <input type="radio" id="q${index}a${i}" name="q${index}" value="${i}">
+                <label for="q${index}a${i}">
+                  <div class="radio-circle"></div>
+                  ${answer}
+                </label>
+              </div>
+            `).join('')}
+          `;
+          questionsContainer.appendChild(questionDiv);
+        });
+      } else {
+        alert("Тест не знайдено");
+      }
+    }
+    
+    function submitTest(event) {
+      event.preventDefault();
+      const testCode = document.getElementById("test-code-input").value;
+      const studentName = document.getElementById("student-name").value;
+      const test = testDatabase[testCode];
+      let correctAnswers = 0;
+      
+      test.questions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && parseInt(selected.value) === q.correct) {
+          correctAnswers++;
+        }
+      });
+      
+      document.getElementById("test-section").style.display = "none";
+      document.getElementById("results-section").style.display = "block";
+      document.getElementById("results").innerText = `${studentName}, ви відповіли правильно на ${correctAnswers} з ${test.questions.length} питань.`;
+    }
+  </script>
+</body>
+</html>

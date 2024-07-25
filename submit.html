@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Проходження тесту - TestGoldenEagle</title>
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #000000, #e0ab0f);
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #e0ab0f;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+    nav button:hover {
+      background-color: #000000;
+    }
+    main {
+      padding: 2em;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #e0ab0f;
+    }
+    .question {
+      margin-bottom: 1em;
+    }
+    .answer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .answer input[type="radio"] {
+      margin-right: 10px;
+    }
+    .answer label {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .answer .radio-circle {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #004d40;
+      margin-right: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .answer input[type="radio"]:checked + label .radio-circle {
+      background-color: #00994d;
+    }
+    button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Проходження тесту - TestGoldenEagle</h1>
+  </header>
+  <main>
+    <div class="container">
+      <section id="test-section">
+        <form id="test-form" onsubmit="submitTest(event)">
+          <div id="questions-container"></div>
+          <button type="home-section.html">Завершити тест</button>
+          <a href="home-section.html"></a>
+        </form>
+      </section>
+      
+      <section id="results-section" style="display:none;">
+        <h2>Результати</h2>
+        <p id="results"></p>
+      </section>
+    </div>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const studentName = urlParams.get('student-name');
+      const testCode = urlParams.get('test-code-input');
+      const storedTests = JSON.parse(localStorage.getItem('tests')) || {};
+      const test = storedTests[testCode];
+      
+      if (test) {
+        const questionsContainer = document.getElementById("questions-container");
+        questionsContainer.innerHTML = '';
+        
+        test.questions.forEach((q, index) => {
+          const questionDiv = document.createElement("div");
+          questionDiv.className = "question";
+          questionDiv.innerHTML = `
+            <label>${q.question}</label>
+            ${q.answers.map((answer, i) => `
+              <div class="answer">
+                <input type="radio" id="q${index}a${i}" name="q${index}" value="${i}">
+                <label for="q${index}a${i}">
+                  <div class="radio-circle"></div>
+                  ${answer}
+                </label>
+              </div>
+            `).join('')}
+          `;
+          questionsContainer.appendChild(questionDiv);
+        });
+      } else {
+        alert("Тест не знайдено.");
+      }
+    });
+    
+    function submitTest(event) {
+      event.preventDefault();
+      const urlParams = new URLSearchParams(window.location.search);
+      const studentName = urlParams.get('student-name');
+      const testCode = urlParams.get('test-code-input');
+      const storedTests = JSON.parse(localStorage.getItem('tests')) || {};
+      const test = storedTests[testCode];
+      let correctAnswers = 0;
+      
+      test.questions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && parseInt(selected.value) === q.correct) {
+          correctAnswers++;
+        }
+      });
+      
+      document.getElementById("test-section").style.display = "none";
+      document.getElementById("results-section").style.display = "block";
+      document.getElementById("results").innerText = `${studentName}, ви відповіли правильно на ${correctAnswers} з ${test.questions.length} питань.`;
+    }
+  </script>
+</body>
+</html>

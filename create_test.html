@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Створити тест - TestGoldenEagle</title>
+  <style>
+    /* Загальні стилі */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #000000, #e0ab0f);
+      color: #000000;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #000000;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background-color: #e0ab0f;
+      text-align: center;
+      padding: 1em 0;
+    }
+    nav button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+    nav button:hover {
+      background-color: #000000;
+    }
+    main {
+      padding: 2em;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 2em;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #e0ab0f;
+    }
+    label {
+      display: block;
+      margin: 0.5em 0 0.2em;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #004d40;
+      border-radius: 4px;
+    }
+    .question {
+      margin-bottom: 1em;
+    }
+    .answer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .answer label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .answer input[type="text"] {
+      margin-right: 10px;
+    }
+    button {
+      background-color: #e0ab0f;
+      color: white;
+      padding: 0.75em 1.5em;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TestGoldenEagle - Веб-сайт для створення та проходження тестів</h1>
+  </header>
+  <nav>
+    <button onclick="window.location.href='home-section.html'">Головна</button>
+    <a href="home-section.html"></a>
+    <button onclick="window.location.href='ctake_test.html'">Пройти тест</button>
+    <a href="ctake_test.html"></a>
+    <button onclick="window.location.href='info_test.html'">Інформація</button>
+    <a href="info_test.html"></a>
+  </nav>
+  <main>
+    <div class="container">
+      <section id="teacher-section">
+        <h2>Створити тест</h2>
+        <form id="create-test-form">
+          <label for="test-title">Назва тесту:</label>
+          <input type="text" id="test-title" name="test-title" required>
+
+          <label for="test-code">Код тесту:</label>
+          <input type="text" id="test-code" name="test-code" required>
+
+          <div id="questions-panel" class="questions-panel"></div>
+
+          <button type="button" onclick="addQuestion()">Додати питання</button>
+          <button type="submit">Створити тест</button>
+        </form>
+      </section>
+    </div>
+  </main>
+<script>
+    let questionCount = 0;
+    const testQuestions = [];
+
+    function addQuestion() {
+        questionCount++;
+        const questionsPanel = document.getElementById('questions-panel');
+        const questionDiv = document.createElement('div');
+        questionDiv.className = 'question';
+        questionDiv.innerHTML = `
+            <label for="question-${questionCount}">Питання ${questionCount}:</label>
+            <input type="text" id="question-${questionCount}" name="question-${questionCount}" required>
+            
+            ${[1, 2, 3, 4].map(i => `
+                <div class="answer">
+                    <label for="q${questionCount}-a${i}">${i}.</label>
+                    <input type="text" id="q${questionCount}-a${i}" name="q${questionCount}-answer-${i}" placeholder="Відповідь ${i}" required>
+                    <input type="radio" name="q${questionCount}-correct" value="${i - 1}">
+                </div>
+            `).join('')}
+        `;
+        questionsPanel.appendChild(questionDiv);
+    }
+
+    document.getElementById('create-test-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const testTitle = document.getElementById('test-title').value;
+        const testCode = document.getElementById('test-code').value;
+        const questions = [];
+
+        for (let i = 1; i <= questionCount; i++) {
+            const questionText = document.getElementById(`question-${i}`).value;
+            const answers = [];
+            for (let j = 1; j <= 4; j++) {
+                answers.push(document.getElementById(`q${i}-a${j}`).value);
+            }
+            const correctAnswerElement = document.querySelector(`input[name="q${i}-correct"]:checked`);
+            if (!correctAnswerElement) {
+                alert(`Виберіть правильну відповідь для питання ${i}`);
+                return;
+            }
+            const correctAnswer = correctAnswerElement.value;
+            questions.push({ question: questionText, answers: answers, correct: parseInt(correctAnswer) });
+        }
+
+        const newTest = {
+            title: testTitle,
+            questions: questions
+        };
+
+        saveTest(newTest, testCode);
+        alert('Тест створено!');
+        document.getElementById('create-test-form').reset();
+        questionCount = 0;
+        document.getElementById('questions-panel').innerHTML = '';
+    });
+
+    function saveTest(testData, testCode) {
+        const storedTests = JSON.parse(localStorage.getItem('tests')) || {};
+        storedTests[testCode] = testData;
+        localStorage.setItem('tests', JSON.stringify(storedTests));
+    }
+
+    function showTests() {
+        const storedTests = JSON.parse(localStorage.getItem('tests')) || {};
+        const testList = document.getElementById('test-list');
+        testList.innerHTML = '';
+
+        for (const [code, test] of Object.entries(storedTests)) {
+            const testDiv = document.createElement('div');
+            testDiv.className = 'saved-test';
+            testDiv.innerHTML = `
+                <h3>${test.title} (код: ${code})</h3>
+                ${test.questions.map((question, index) => `
+                    <div class="test-question">
+                        <p>${index + 1}. ${question.question}</p>
+                        <ul>
+                            ${question.answers.map((answer, idx) => `
+                                <li>${String.fromCharCode(97 + idx)}. ${answer}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `).join('')}
+            `;
+            testList.appendChild(testDiv);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        showTests();
+    });
+</script>
+</body>
+</html>
